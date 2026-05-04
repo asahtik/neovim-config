@@ -113,7 +113,9 @@ end)
 -- Programs dedicated to text formatting (a.k.a. formatters) are very useful.
 -- Neovim has built-in tools for text formatting (see `:h gq` and `:h 'formatprg'`).
 -- They can be used to configure external programs, but it might become tedious.
---
+
+now_if_args(function() add({ 'https://github.com/NMAC427/guess-indent.nvim' }) end)
+
 -- The 'stevearc/conform.nvim' plugin is a good and maintained solution for easier
 -- formatting setup.
 later(function()
@@ -130,8 +132,19 @@ later(function()
     },
     -- Map of filetype to formatters
     -- Make sure that necessary CLI tool is available
-    -- formatters_by_ft = { lua = { 'stylua' } },
+    formatters_by_ft = {
+      lua = { 'stylua' },
+      cpp = { 'clang-format' },
+      c = { 'clang-format' },
+      rust = { 'rustfmt' },
+    },
   })
+  vim.keymap.set('n', '<Leader>f', function()
+    require('conform').format({ async = true, lsp_fallback = true })
+    if vim.fn.exists('GuessIndent') then
+      vim.cmd('GuessIndent')
+    end
+  end)
 end)
 
 -- Snippets ===================================================================
@@ -155,10 +168,10 @@ later(function() add({ 'https://github.com/rafamadriz/friendly-snippets' }) end)
 -- If you need them to work elsewhere, consider using other package managers.
 --
 -- You can use it like so:
--- now_if_args(function()
---   add({ 'https://github.com/mason-org/mason.nvim' })
---   require('mason').setup()
--- end)
+now_if_args(function()
+  add({ 'https://github.com/mason-org/mason.nvim' })
+  require('mason').setup()
+end)
 
 -- Beautiful, usable, well maintained color schemes outside of 'mini.nvim' and
 -- have full support of its highlight groups. Use if you don't like 'miniwinter'
@@ -174,3 +187,62 @@ later(function() add({ 'https://github.com/rafamadriz/friendly-snippets' }) end)
 --   -- Enable only one
 --   vim.cmd('color everforest')
 -- end)
+
+later(function()
+  add({ 'https://github.com/MeanderingProgrammer/render-markdown.nvim' })
+  require('render-markdown').setup({})
+end)
+
+now_if_args(function()
+  add({ 'https://github.com/andymass/vim-matchup' })
+end)
+
+-- debugging tools
+later(function()
+  add({ 'https://github.com/mfussenegger/nvim-dap' })
+  add({ 'https://github.com/nvim-neotest/nvim-nio' })
+  add({ 'https://github.com/rcarriga/nvim-dap-ui' })
+  add({ 'https://github.com/jay-babu/mason-nvim-dap.nvim' })
+
+  vim.keymap.set('n', '<F5>', function()
+    require('dap').continue()
+  end)
+  vim.keymap.set('n', '<F10>', function()
+    require('dap').step_over()
+  end)
+  vim.keymap.set('n', '<F11>', function()
+    require('dap').step_into()
+  end)
+  vim.keymap.set('n', '<F12>', function()
+    require('dap').step_out()
+  end)
+  vim.keymap.set('n', '<Leader>db', function()
+    require('dap').toggle_breakpoint()
+  end)
+  vim.keymap.set('n', '<Leader>dB', function()
+    require('dap').set_breakpoint()
+  end)
+  vim.keymap.set('n', '<Leader>dlp', function()
+    require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: '))
+  end)
+  vim.keymap.set('n', '<Leader>dr', function()
+    require('dap').repl.open()
+  end)
+  vim.keymap.set('n', '<Leader>dl', function()
+    require('dap').run_last()
+  end)
+  vim.keymap.set({ 'n', 'v' }, '<Leader>dh', function()
+    require('dap.ui.widgets').hover()
+  end)
+  vim.keymap.set({ 'n', 'v' }, '<Leader>dp', function()
+    require('dap.ui.widgets').preview()
+  end)
+  vim.keymap.set('n', '<Leader>df', function()
+    local widgets = require('dap.ui.widgets')
+    widgets.centered_float(widgets.frames)
+  end)
+  vim.keymap.set('n', '<Leader>ds', function()
+    local widgets = require('dap.ui.widgets')
+    widgets.centered_float(widgets.scopes)
+  end)
+end)

@@ -54,7 +54,7 @@ Config.leader_group_clues = {
   { mode = 'n', keys = '<Leader>e', desc = '+Explore/Edit' },
   { mode = 'n', keys = '<Leader>f', desc = '+Find' },
   { mode = 'n', keys = '<Leader>g', desc = '+Git' },
-  { mode = 'n', keys = '<Leader>l', desc = '+Language' },
+  -- { mode = 'n', keys = '<Leader>l', desc = '+Language' },
   { mode = 'n', keys = '<Leader>m', desc = '+Map' },
   { mode = 'n', keys = '<Leader>o', desc = '+Other' },
   { mode = 'n', keys = '<Leader>s', desc = '+Session' },
@@ -62,7 +62,7 @@ Config.leader_group_clues = {
   { mode = 'n', keys = '<Leader>v', desc = '+Visits' },
 
   { mode = 'x', keys = '<Leader>g', desc = '+Git' },
-  { mode = 'x', keys = '<Leader>l', desc = '+Language' },
+  -- { mode = 'x', keys = '<Leader>l', desc = '+Language' },
 }
 
 -- Helpers for a more concise `<Leader>` mappings.
@@ -155,6 +155,14 @@ nmap_leader('fS', '<Cmd>Pick lsp scope="document_symbol"<CR>',  'Symbols documen
 nmap_leader('fv', '<Cmd>Pick visit_paths cwd=""<CR>',           'Visit paths (all)')
 nmap_leader('fV', '<Cmd>Pick visit_paths<CR>',                  'Visit paths (cwd)')
 
+-- extra lsp bindings
+vim.keymap.set('n', 'grr', '<Cmd>Pick lsp scope="references"', { desc = 'References (LSP, incl. declaration)' })
+vim.keymap.set('n', 'gri', '<Cmd>Pick lsp scope="implementation"', { desc = 'Implementation (LSP)' })
+vim.keymap.set('n', 'grd', '<Cmd>Pick lsp scope="definition"',   { desc = 'Definition (LSP)' })
+vim.keymap.set('n', 'grD', '<Cmd>Pick lsp scope="declaration"', { desc = 'Declaration (LSP)' })
+vim.keymap.set('n', 'grt', '<Cmd>Pick lsp scope="type_definition"', { desc = 'Type definition (LSP)' })
+
+
 -- g is for 'Git'. Common usage:
 -- - `<Leader>gs` - show information at cursor
 -- - `<Leader>go` - toggle 'mini.diff' overlay to show in-buffer unstaged changes
@@ -183,19 +191,20 @@ xmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>', 'Show at selection')
 --
 -- NOTE: most LSP mappings represent a more structured way of replacing built-in
 -- LSP mappings (like `:h gra` and others). This is needed because `gr` is mapped
--- by an "replace" operator in 'mini.operators' (which is more commonly used).
-nmap_leader('la', '<Cmd>lua vim.lsp.buf.code_action()<CR>',     'Actions')
-nmap_leader('ld', '<Cmd>lua vim.diagnostic.open_float()<CR>',   'Diagnostic popup')
-nmap_leader('lf', '<Cmd>lua require("conform").format()<CR>',   'Format')
-nmap_leader('li', '<Cmd>lua vim.lsp.buf.implementation()<CR>',  'Implementation')
-nmap_leader('lh', '<Cmd>lua vim.lsp.buf.hover()<CR>',           'Hover')
-nmap_leader('ll', '<Cmd>lua vim.lsp.codelens.run()<CR>',        'Lens')
-nmap_leader('lr', '<Cmd>lua vim.lsp.buf.rename()<CR>',          'Rename')
-nmap_leader('lR', '<Cmd>lua vim.lsp.buf.references()<CR>',      'References')
-nmap_leader('ls', '<Cmd>lua vim.lsp.buf.definition()<CR>',      'Source definition')
-nmap_leader('lt', '<Cmd>lua vim.lsp.buf.type_definition()<CR>', 'Type definition')
-
-xmap_leader('lf', '<Cmd>lua require("conform").format()<CR>', 'Format selection')
+-- by an "replace" operator in 'mini.operators' (which is more commonly used) - disabled.
+--
+-- nmap_leader('la', '<Cmd>lua vim.lsp.buf.code_action()<CR>',     'Actions')
+-- nmap_leader('ld', '<Cmd>lua vim.diagnostic.open_float()<CR>',   'Diagnostic popup')
+-- nmap_leader('lf', '<Cmd>lua require("conform").format()<CR>',   'Format')
+-- nmap_leader('li', '<Cmd>lua vim.lsp.buf.implementation()<CR>',  'Implementation')
+-- nmap_leader('lh', '<Cmd>lua vim.lsp.buf.hover()<CR>',           'Hover')
+-- nmap_leader('ll', '<Cmd>lua vim.lsp.codelens.run()<CR>',        'Lens')
+-- nmap_leader('lr', '<Cmd>lua vim.lsp.buf.rename()<CR>',          'Rename')
+-- nmap_leader('lR', '<Cmd>lua vim.lsp.buf.references()<CR>',      'References')
+-- nmap_leader('ls', '<Cmd>lua vim.lsp.buf.definition()<CR>',      'Source definition')
+-- nmap_leader('lt', '<Cmd>lua vim.lsp.buf.type_definition()<CR>', 'Type definition')
+--
+-- xmap_leader('lf', '<Cmd>lua require("conform").format()<CR>', 'Format selection')
 
 -- m is for 'Map'. Common usage:
 -- - `<Leader>mt` - toggle map from 'mini.map' (closed by default)
@@ -247,3 +256,11 @@ nmap_leader('vV', '<Cmd>lua MiniVisits.remove_label("core")<CR>', 'Remove "core"
 nmap_leader('vl', '<Cmd>lua MiniVisits.add_label()<CR>',          'Add label')
 nmap_leader('vL', '<Cmd>lua MiniVisits.remove_label()<CR>',       'Remove label')
 -- stylua: ignore end
+
+-- custom mappings
+nmap_leader("gp", "`[v`]", "Select pasted text")
+xmap_leader("P", '"_dp', "Paste without overwriting default register")
+xmap_leader("D", '"_d', "Delete without overwriting default register")
+xmap_leader("Y", '"_y', "Yank without overwriting default register")
+
+vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })

@@ -45,6 +45,7 @@ vim.o.pumborder      = 'single'   -- Use border in popup menu
 vim.o.pumheight      = 10         -- Make popup menu smaller
 vim.o.pummaxwidth    = 100        -- Make popup menu not too wide
 vim.o.ruler          = false      -- Don't show cursor coordinates
+vim.o.scrolloff      = 5          -- Minimal number of screen lines to keep above and below the cursor
 vim.o.shortmess      = 'CFOSWaco' -- Disable some built-in completion messages
 vim.o.showmode       = false      -- Don't show mode in command line
 vim.o.signcolumn     = 'yes'      -- Always show signcolumn (less flicker)

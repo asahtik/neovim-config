@@ -33,7 +33,7 @@ local now, now_if_args, later = Config.now, Config.now_if_args, Config.later
 -- - `:h mini.nvim-color-schemes` - list of other color schemes
 -- - `:h MiniHues-examples` - how to define highlighting with 'mini.hues'
 -- - 'plugin/40_plugins.lua' honorable mentions - other good color schemes
-now(function() vim.cmd('colorscheme miniwinter') end)
+now(function() vim.cmd('colorscheme minicyan') end)
 
 -- You can try these other 'mini.hues'-based color schemes (uncomment with `gcc`):
 -- now(function() vim.cmd('colorscheme minispring') end)
@@ -329,7 +329,7 @@ later(function() require('mini.align').setup() end)
 -- It is not enabled by default because its effects are a matter of taste.
 -- Also scroll and resize have some unwanted side effects (see `:h mini.animate`).
 -- Uncomment next line (use `gcc`) to enable.
--- later(function() require('mini.animate').setup() end)
+later(function() require('mini.animate').setup() end)
 
 -- Go forward/backward with square brackets. Implements consistent sets of mappings
 -- for selected targets (like buffers, diagnostic, quickfix list entries, etc.).
@@ -405,6 +405,9 @@ later(function()
       { mode = { 'n', 'x' }, keys = 's' },        -- `s` key (mini.surround, etc.)
       { mode = { 'n', 'x' }, keys = 'z' },        -- `z` key
     },
+    window = {
+      delay = 300,
+    },
   })
 end)
 
@@ -444,7 +447,7 @@ later(function() require('mini.comment').setup() end)
 --
 -- It is not enabled by default because its effects are a matter of taste.
 -- Uncomment next line (use `gcc`) to enable.
--- later(function() require('mini.cursorword').setup() end)
+later(function() require('mini.cursorword').setup() end)
 
 -- Work with diff hunks that represent the difference between the buffer text and
 -- some reference text set by a source. Default source uses text from Git index.
@@ -460,7 +463,14 @@ later(function() require('mini.comment').setup() end)
 -- - `:h MiniDiff-overview` - overview of how module works
 -- - `:h MiniDiff-diff-summary` - available summary information
 -- - `:h MiniDiff.gen_source` - available built-in sources
-later(function() require('mini.diff').setup() end)
+later(function()
+  require('mini.diff').setup({
+    view = {
+      style = 'sign',
+      signs = { add = '+', change = '~', delete = '-' },
+    },
+  })
+end)
 
 -- Git integration for more straightforward Git actions based on Neovim's state.
 -- It is not meant as a fully featured Git client, only to provide helpers that
@@ -529,7 +539,7 @@ later(function() require('mini.jump').setup() end)
 --
 -- See also:
 -- - `:h MiniJump2d.gen_spotter` - list of available spotters
-later(function() require('mini.jump2d').setup() end)
+-- later(function() require('mini.jump2d').setup() end)
 
 -- Special key mappings. Provides helpers to map:
 -- - Multi-step actions. Apply action 1 if condition is met; else apply
@@ -614,18 +624,18 @@ later(function() require('mini.move').setup() end)
 -- See also:
 -- - `:h MiniOperators-mappings` - overview of how mappings are created
 -- - `:h MiniOperators-overview` - overview of present operators
-later(function()
-  require('mini.operators').setup()
-
-  -- Create mappings for swapping adjacent arguments. Notes:
-  -- - Relies on `a` argument textobject from 'mini.ai'.
-  -- - It is not 100% reliable, but mostly works.
-  -- - It overrides `:h (` and `:h )`.
-  -- Explanation: `gx`-`ia`-`gx`-`ila` <=> exchange current and last argument
-  -- Usage: when on `a` in `(aa, bb)` press `)` followed by `(`.
-  vim.keymap.set('n', '(', 'gxiagxila', { remap = true, desc = 'Swap arg left' })
-  vim.keymap.set('n', ')', 'gxiagxina', { remap = true, desc = 'Swap arg right' })
-end)
+-- later(function()
+--   require('mini.operators').setup()
+--
+--   -- Create mappings for swapping adjacent arguments. Notes:
+--   -- - Relies on `a` argument textobject from 'mini.ai'.
+--   -- - It is not 100% reliable, but mostly works.
+--   -- - It overrides `:h (` and `:h )`.
+--   -- Explanation: `gx`-`ia`-`gx`-`ila` <=> exchange current and last argument
+--   -- Usage: when on `a` in `(aa, bb)` press `)` followed by `(`.
+--   vim.keymap.set('n', '(', 'gxiagxila', { remap = true, desc = 'Swap arg left' })
+--   vim.keymap.set('n', ')', 'gxiagxina', { remap = true, desc = 'Swap arg right' })
+-- end)
 
 -- Autopairs functionality. Insert pair when typing opening character and go over
 -- right character if it is already to cursor's right. Also provides mappings for
