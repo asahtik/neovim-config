@@ -10,7 +10,7 @@
 
 -- Make concise helpers for installing/adding plugins in two stages
 local add = vim.pack.add
-local now_if_args, later = Config.now_if_args, Config.later
+local now, now_if_args, later = Config.now, Config.now_if_args, Config.later
 
 -- Tree-sitter ================================================================
 
@@ -201,4 +201,8 @@ end)
 
 now_if_args(function()
   add({ 'https://github.com/dlyongemallo/diffview.nvim' })
+end)
+
+now(function()
+  add({ "https://github.com/christoomey/vim-tmux-navigator" })
 end)
