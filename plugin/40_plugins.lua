@@ -197,6 +197,10 @@ now_if_args(function()
   add({ 'https://github.com/andymass/vim-matchup' })
 end)
 
+now_if_args(function()
+  add({ 'https://github.com/dlyongemallo/diffview.nvim' })
+end)
+
 -- debugging tools
 later(function()
   add({ 'https://github.com/mfussenegger/nvim-dap' })
