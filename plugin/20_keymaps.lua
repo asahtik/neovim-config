@@ -156,11 +156,11 @@ nmap_leader('fv', '<Cmd>Pick visit_paths cwd=""<CR>',           'Visit paths (al
 nmap_leader('fV', '<Cmd>Pick visit_paths<CR>',                  'Visit paths (cwd)')
 
 -- extra lsp bindings
-vim.keymap.set('n', 'grr', '<Cmd>Pick lsp scope="references"', { desc = 'References (LSP, incl. declaration)' })
-vim.keymap.set('n', 'gri', '<Cmd>Pick lsp scope="implementation"', { desc = 'Implementation (LSP)' })
-vim.keymap.set('n', 'grd', '<Cmd>Pick lsp scope="definition"',   { desc = 'Definition (LSP)' })
-vim.keymap.set('n', 'grD', '<Cmd>Pick lsp scope="declaration"', { desc = 'Declaration (LSP)' })
-vim.keymap.set('n', 'grt', '<Cmd>Pick lsp scope="type_definition"', { desc = 'Type definition (LSP)' })
+vim.keymap.set('n', 'grr', '<Cmd>Pick lsp scope="references"<CR>', { desc = 'References (LSP, incl. declaration)' })
+vim.keymap.set('n', 'gri', '<Cmd>Pick lsp scope="implementation"<CR>', { desc = 'Implementation (LSP)' })
+vim.keymap.set('n', 'grd', '<Cmd>Pick lsp scope="definition"<CR>',   { desc = 'Definition (LSP)' })
+vim.keymap.set('n', 'grD', '<Cmd>Pick lsp scope="declaration"<CR>', { desc = 'Declaration (LSP)' })
+vim.keymap.set('n', 'grt', '<Cmd>Pick lsp scope="type_definition"<CR>', { desc = 'Type definition (LSP)' })
 
 
 -- g is for 'Git'. Common usage:
