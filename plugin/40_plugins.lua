@@ -103,9 +103,10 @@ now_if_args(function()
   -- the rules provided by 'nvim-lspconfig'.
   -- Use `:h vim.lsp.config()` or 'after/lsp/' directory to configure servers.
   -- Uncomment and tweak the following `vim.lsp.enable()` call to enable servers.
-  -- vim.lsp.enable({
-  --   -- For example, if `lua-language-server` is installed, use `'lua_ls'` entry
-  -- })
+  vim.lsp.enable({
+    -- For example, if `lua-language-server` is installed, use `'lua_ls'` entry
+    'lua_ls', 'rust_analyzer', 'clangd',
+  })
 end)
 
 -- Formatting =================================================================
@@ -139,7 +140,7 @@ later(function()
       rust = { 'rustfmt' },
     },
   })
-  vim.keymap.set('n', '<Leader>f', function()
+  vim.keymap.set('n', '<Leader>bf', function()
     require('conform').format({ async = true, lsp_fallback = true })
     if vim.fn.exists('GuessIndent') then
       vim.cmd('GuessIndent')
@@ -170,6 +171,7 @@ later(function() add({ 'https://github.com/rafamadriz/friendly-snippets' }) end)
 -- You can use it like so:
 now_if_args(function()
   add({ 'https://github.com/mason-org/mason.nvim' })
+  add({ 'https://github.com/mason-org/mason-lspconfig.nvim' })
   require('mason').setup()
 end)
 

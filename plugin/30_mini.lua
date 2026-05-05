@@ -233,6 +233,29 @@ now_if_args(function()
     MiniFiles.set_bookmark('w', vim.fn.getcwd, { desc = 'Working directory' })
   end
   Config.new_autocmd('User', 'MiniFilesExplorerOpen', add_marks, 'Add bookmarks')
+
+  -- Set focused directory as current working directory
+  local set_cwd = function()
+    local path = (MiniFiles.get_fs_entry() or {}).path
+    if path == nil then return vim.notify('Cursor is not on valid entry') end
+    vim.fn.chdir(vim.fs.dirname(path))
+  end
+
+  -- Yank in register full path of entry under cursor
+  local yank_path = function()
+    local path = (MiniFiles.get_fs_entry() or {}).path
+    if path == nil then return vim.notify('Cursor is not on valid entry') end
+    vim.fn.setreg(vim.v.register, path)
+  end
+
+  -- Open path with system default handler (useful for non-text files)
+  local ui_open = function() vim.ui.open(MiniFiles.get_fs_entry().path) end
+  Config.new_autocmd('User', 'MiniFilesBufferCreate', function(args)
+    local b = args.data.buf_id
+    vim.keymap.set('n', 'g~', set_cwd,   { buffer = b, desc = 'Set cwd' })
+    vim.keymap.set('n', 'gX', ui_open,   { buffer = b, desc = 'OS open' })
+    vim.keymap.set('n', 'gy', yank_path, { buffer = b, desc = 'Yank path' })
+  end, 'Add keybindings')
 end)
 
 -- Miscellaneous small but useful functions. Example usage:
@@ -785,7 +808,21 @@ later(function() require('mini.splitjoin').setup() end)
 -- - `:h MiniSurround-builtin-surroundings` - list of all supported surroundings
 -- - `:h MiniSurround-surrounding-specification` - examples of custom surroundings
 -- - `:h MiniSurround-vim-surround-config` - alternative set of action mappings
-later(function() require('mini.surround').setup() end)
+later(function() require('mini.surround').setup({
+  mappings = {
+    add = 'S',
+    delete = 'ds',
+    find = '',
+    find_left = '',
+    highlight = '',
+    replace = 'cs',
+
+    -- Add this only if you don't want to use extended mappings
+    suffix_last = '',
+    suffix_next = '',
+  },
+  search_method = 'cover_or_next',
+}) end)
 
 -- Highlight and remove trailspace. Temporarily stops highlighting in Insert mode
 -- to reduce noise when typing. Example usage:
