@@ -206,3 +206,8 @@ end)
 now(function()
   add({ "https://github.com/christoomey/vim-tmux-navigator" })
 end)
+
+now(function()
+  add({ 'https://github.com/folke/tokyonight.nvim' })
+  vim.cmd('colorscheme tokyonight-night')
+end)
