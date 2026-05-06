@@ -115,11 +115,13 @@ end)
 -- Neovim has built-in tools for text formatting (see `:h gq` and `:h 'formatprg'`).
 -- They can be used to configure external programs, but it might become tedious.
 
-now_if_args(function() add({ 'https://github.com/NMAC427/guess-indent.nvim' }) end)
-
 -- The 'stevearc/conform.nvim' plugin is a good and maintained solution for easier
 -- formatting setup.
 later(function()
+  add({ 'https://github.com/NMAC427/guess-indent.nvim' })
+
+  require('guess-indent').setup()
+
   add({ 'https://github.com/stevearc/conform.nvim' })
 
   -- See also:
