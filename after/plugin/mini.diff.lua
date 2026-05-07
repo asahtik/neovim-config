@@ -18,6 +18,7 @@ vim.api.nvim_create_user_command('MiniDiffRef', function(opts)
   end
 
   MiniDiff.set_ref_text(0, text)
+
   vim.notify('mini.diff reference set to ' .. commit)
 end, {
   nargs = 1,
@@ -32,3 +33,65 @@ end, {
     })
   end,
 })
+
+vim.api.nvim_create_user_command('MiniDiffFile', function(opts)
+  local file = vim.fn.expand(opts.args)
+
+  if vim.fn.filereadable(file) == 0 then
+    vim.notify('File not found: ' .. file, vim.log.levels.ERROR)
+    return
+  end
+
+  local lines = vim.fn.readfile(file)
+  local text = table.concat(lines, '\n')
+
+  -- Preserve trailing newline if present
+  if vim.fn.getfsize(file) > 0 then
+    local last = vim.fn.readfile(file, '', 1)[1]
+    if last == '' then
+      text = text .. '\n'
+    end
+  end
+
+  MiniDiff.set_ref_text(0, text)
+
+  vim.notify('mini.diff reference set to ' .. file)
+end, {
+  nargs = 1,
+  complete = 'file',
+})
+
+vim.api.nvim_create_user_command('MiniDiffUnsaved', function()
+  local file = vim.fn.expand('%:p')
+
+  if file == '' or vim.fn.filereadable(file) == 0 then
+    MiniDiff.set_ref_text(0, '')
+    vim.notify('Current buffer has no saved file', vim.log.levels.ERROR)
+    return
+  end
+
+  local lines = vim.fn.readfile(file)
+  local text = table.concat(lines, '\n')
+
+  -- Preserve trailing newline
+  local f = io.open(file, 'rb')
+  if f then
+    local content = f:read('*a')
+    f:close()
+
+    if content:sub(-1) == '\n' then
+      text = text .. '\n'
+    end
+  end
+
+  MiniDiff.set_ref_text(0, text)
+
+  vim.notify('mini.diff reference set to saved file')
+end, {})
+
+vim.api.nvim_create_user_command('MiniDiffReset', function()
+  MiniDiff.disable()
+  MiniDiff.enable()
+
+  vim.notify('mini.diff reset')
+end, {})

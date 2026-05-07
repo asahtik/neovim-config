@@ -55,6 +55,11 @@ now_if_args(function()
     'lua',
     'vimdoc',
     'markdown',
+    'c',
+    'cpp',
+    'rust',
+    'python',
+    'latex',
     -- Add here more languages with which you want to use tree-sitter
     -- To see available languages:
     -- - Execute `:=require('nvim-treesitter').get_available()`
@@ -199,6 +204,11 @@ end)
 
 now_if_args(function()
   add({ 'https://github.com/andymass/vim-matchup' })
+  require('match-up').setup({
+    treesitter = {
+      stopline = 500
+    }
+  })
 end)
 
 now_if_args(function()
