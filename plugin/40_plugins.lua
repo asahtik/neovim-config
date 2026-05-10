@@ -223,3 +223,7 @@ now(function()
   add({ 'https://github.com/folke/tokyonight.nvim' })
   vim.cmd('colorscheme tokyonight-night')
 end)
+
+later(function()
+  add({ 'https://github.com/github/copilot.vim' })
+end)
