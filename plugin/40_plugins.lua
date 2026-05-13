@@ -114,6 +114,12 @@ now_if_args(function()
   })
 end)
 
+now_if_args(function()
+  add({ 'https://github.com/antonk52/filepaths_ls.nvim' })
+
+  vim.lsp.enable('filepaths_ls')
+end)
+
 -- Formatting =================================================================
 
 -- Programs dedicated to text formatting (a.k.a. formatters) are very useful.
