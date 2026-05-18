@@ -233,3 +233,8 @@ end)
 later(function()
   add({ 'https://github.com/github/copilot.vim' })
 end)
+
+vim.cmd.packadd('nvim.difftool')
+vim.cmd.packadd('nvim.undotree')
+vim.cmd.packadd('cfilter')
+vim.cmd.packadd('termdebug')
