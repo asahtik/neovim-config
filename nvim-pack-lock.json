@@ -1,7 +1,7 @@
 {
   "plugins": {
     "conform.nvim": {
-      "rev": "086a40dc7ed8242c03be9f47fbcee68699cc2395",
+      "rev": "619363c30309d29ffa631e67c8183f2a72caa373",
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "copilot.vim": {
@@ -37,7 +37,7 @@
       "src": "https://github.com/mason-org/mason.nvim"
     },
     "mini.nvim": {
-      "rev": "418ef4930ddabe80f449c6f1323f8b6abb172d1c",
+      "rev": "1345d191bb3da9c7b0e977f4387c5761f9bff68d",
       "src": "https://github.com/nvim-mini/mini.nvim"
     },
     "nvim-dap": {
@@ -49,7 +49,7 @@
       "src": "https://github.com/rcarriga/nvim-dap-ui"
     },
     "nvim-lspconfig": {
-      "rev": "4b7fbaa239c5db6b36f424a4521ca9f1a401be33",
+      "rev": "bfcc0171a43f22afa61d927ffe9fcb6cb85dc99e",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-nio": {
