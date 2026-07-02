@@ -129,6 +129,34 @@ nmap_leader('eQ', explore_locations,                        'Location list')
 -- All these use 'mini.pick'. See `:h MiniPick-overview` for an overview.
 local pick_added_hunks_buf = '<Cmd>Pick git_hunks path="%" scope="staged"<CR>'
 local pick_workspace_symbols_live = '<Cmd>Pick lsp scope="workspace_symbol_live"<CR>'
+local git_rev_parse = function(dir, arg)
+  if type(dir) ~= 'string' or dir == '' or vim.fn.isdirectory(dir) == 0 then return nil end
+  local out = vim.fn.systemlist({ 'git', '-C', dir, 'rev-parse', arg })
+  if vim.v.shell_error ~= 0 or out[1] == nil or out[1] == '' then return nil end
+  return out[1]
+end
+
+local pick_git_root = function(name, local_opts)
+  return function()
+    local builtin = MiniPick.builtin[name]
+    if type(builtin) ~= 'function' then return end
+
+    local buf_name = vim.api.nvim_buf_get_name(0)
+    local dir = buf_name ~= '' and vim.fs.dirname(vim.fn.fnamemodify(buf_name, ':p')) or vim.fn.getcwd()
+    if dir == nil or vim.fn.isdirectory(dir) == 0 then dir = vim.fn.getcwd() end
+
+    local root = git_rev_parse(dir, '--show-toplevel') or dir
+
+    while true do
+      local super_root = git_rev_parse(root, '--show-superproject-working-tree')
+      if super_root == nil or super_root == root then break end
+      root = super_root
+    end
+
+    local pick_opts = type(local_opts) == 'function' and local_opts() or local_opts
+    return builtin(pick_opts, { source = { cwd = root } })
+  end
+end
 
 nmap_leader('f/', '<Cmd>Pick history scope="/"<CR>',            '"/" history')
 nmap_leader('f:', '<Cmd>Pick history scope=":"<CR>',            '":" history')
@@ -139,9 +167,9 @@ nmap_leader('fc', '<Cmd>Pick git_commits<CR>',                  'Commits (all)')
 nmap_leader('fC', '<Cmd>Pick git_commits path="%"<CR>',         'Commits (buf)')
 nmap_leader('fd', '<Cmd>Pick diagnostic scope="all"<CR>',       'Diagnostic workspace')
 nmap_leader('fD', '<Cmd>Pick diagnostic scope="current"<CR>',   'Diagnostic buffer')
-nmap_leader('ff', '<Cmd>Pick files<CR>',                        'Files')
-nmap_leader('fg', '<Cmd>Pick grep_live<CR>',                    'Grep live')
-nmap_leader('fG', '<Cmd>Pick grep pattern="<cword>"<CR>',       'Grep current word')
+nmap_leader('ff', pick_git_root('files'),                       'Files')
+nmap_leader('fg', pick_git_root('grep_live'),                   'Grep live')
+nmap_leader('fG', pick_git_root('grep', function() return { pattern = vim.fn.expand('<cword>') } end), 'Grep current word')
 nmap_leader('fh', '<Cmd>Pick help<CR>',                         'Help tags')
 nmap_leader('fH', '<Cmd>Pick hl_groups<CR>',                    'Highlight groups')
 nmap_leader('fl', '<Cmd>Pick buf_lines scope="all"<CR>',        'Lines (all)')
