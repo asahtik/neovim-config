@@ -203,6 +203,13 @@ end)
 --   vim.cmd('color everforest')
 -- end)
 
+-- Testing ===============================================================
+
+later(function()
+  add({ 'https://github.com/vim-test/vim-test' })
+  vim.cmd([[let test#python#runner = 'pytest']])
+end)
+
 later(function()
   add({ 'https://github.com/MeanderingProgrammer/render-markdown.nvim' })
   require('render-markdown').setup({})
@@ -218,11 +225,12 @@ now_if_args(function()
 end)
 
 now_if_args(function()
-  add({ 'https://github.com/dlyongemallo/diffview.nvim' })
+  add({ 'https://github.com/stevearc/quicker.nvim' })
+  require('quicker').setup()
 end)
 
 now(function()
-  add({ "https://github.com/christoomey/vim-tmux-navigator" })
+  add({ 'https://github.com/christoomey/vim-tmux-navigator' })
 end)
 
 now(function()
@@ -232,6 +240,10 @@ end)
 
 later(function()
   add({ 'https://github.com/github/copilot.vim' })
+end)
+
+now_if_args(function()
+  add({ 'https://github.com/dlyongemallo/diffview.nvim' })
 end)
 
 vim.cmd.packadd('nvim.difftool')
