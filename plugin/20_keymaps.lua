@@ -141,19 +141,22 @@ local pick_git_root = function(name, local_opts)
     local builtin = MiniPick.builtin[name]
     if type(builtin) ~= 'function' then return end
 
-    local buf_name = vim.api.nvim_buf_get_name(0)
-    local dir = buf_name ~= '' and vim.fs.dirname(vim.fn.fnamemodify(buf_name, ':p')) or vim.fn.getcwd()
-    if dir == nil or vim.fn.isdirectory(dir) == 0 then dir = vim.fn.getcwd() end
+    -- local buf_name = vim.api.nvim_buf_get_name(0)
+    -- local dir = buf_name ~= '' and vim.fs.dirname(vim.fn.fnamemodify(buf_name, ':p')) or vim.fn.getcwd()
+    -- if dir == nil or vim.fn.isdirectory(dir) == 0 then dir = vim.fn.getcwd() end
+    --
+    -- local root = git_rev_parse(dir, '--show-toplevel') or dir
+    --
+    -- while true do
+    --   local super_root = git_rev_parse(root, '--show-superproject-working-tree')
+    --   if super_root == nil or super_root == root then break end
+    --   root = super_root
+    -- end
+    --
+    -- local pick_opts = type(local_opts) == 'function' and local_opts() or local_opts
 
-    local root = git_rev_parse(dir, '--show-toplevel') or dir
+    local root = vim.fs.root(0, ".git") or vim.uv.cwd()
 
-    while true do
-      local super_root = git_rev_parse(root, '--show-superproject-working-tree')
-      if super_root == nil or super_root == root then break end
-      root = super_root
-    end
-
-    local pick_opts = type(local_opts) == 'function' and local_opts() or local_opts
     return builtin(pick_opts, { source = { cwd = root } })
   end
 end
