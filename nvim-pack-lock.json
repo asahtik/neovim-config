@@ -1,7 +1,7 @@
 {
   "plugins": {
     "bufferlist.nvim": {
-      "rev": "cc65b43e77bb1bfc0839e8c874ef0359b71ac4b5",
+      "rev": "101f4413a451d0eda0863fee2486afa0e32b585c",
       "src": "https://github.com/asahtik/bufferlist.nvim"
     },
     "conform.nvim": {
