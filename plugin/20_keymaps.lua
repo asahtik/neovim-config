@@ -153,7 +153,7 @@ local pick_git_root = function(name, local_opts)
     --   root = super_root
     -- end
     --
-    -- local pick_opts = type(local_opts) == 'function' and local_opts() or local_opts
+    local pick_opts = type(local_opts) == 'function' and local_opts() or local_opts
 
     local root = vim.fs.root(0, ".git") or vim.uv.cwd()
 

@@ -246,6 +246,11 @@ now_if_args(function()
   add({ 'https://github.com/dlyongemallo/diffview.nvim' })
 end)
 
+now_if_args(function()
+  add({ 'https://github.com/asahtik/bufferlist.nvim' })
+  require('bufferlist').setup({})
+end)
+
 vim.cmd.packadd('nvim.difftool')
 vim.cmd.packadd('nvim.undotree')
 vim.cmd.packadd('cfilter')
