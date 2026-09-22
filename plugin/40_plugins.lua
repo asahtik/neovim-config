@@ -236,6 +236,11 @@ end)
 now(function()
   add({ 'https://github.com/folke/tokyonight.nvim' })
   vim.cmd('colorscheme tokyonight-night')
+
+  vim.api.nvim_create_user_command('ToggleTheme', function()
+    local theme = vim.o.background == 'dark' and 'tokyonight-day' or 'tokyonight-night'
+    vim.cmd.colorscheme(theme)
+  end, { desc = 'Toggle between dark and light themes' })
 end)
 
 later(function()
